@@ -33,7 +33,8 @@ $printer -> text($decodedJson -> message -> chat -> first_name . ' - ' . $dateti
 $printer -> feed(2);
 
 $printer -> setReverseColors(false);
-$printer -> text($decodedJson -> message -> text);
+
+$printer -> text(wordwrap($decodedJson -> message -> text, 42, '\n', true));
 
 $printer -> feed(2);
 $printer -> cut();
