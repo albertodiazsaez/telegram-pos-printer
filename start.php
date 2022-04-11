@@ -34,7 +34,7 @@ $printer -> feed(2);
 
 $printer -> setReverseColors(false);
 
-$printer -> text(wordwrap($decodedJson -> message -> text, 42, '\n', true));
+$printer -> text(wordwrap($decodedJson -> message -> text, 42, "\n", true));
 
 $printer -> feed(2);
 $printer -> cut();
