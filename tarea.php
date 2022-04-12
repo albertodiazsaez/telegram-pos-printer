@@ -31,6 +31,8 @@ $mainText = substr($decodedJson->message->text, 6);
 $printer->text(wordwrap($mainText, 42, "\n", true));
 
 $printer -> feed(2);
-$printer -> text("Comenzada:\n"."Terminada:");
+$printer->setReverseColors(true);
+$printer -> text("Comenzada:\n\n"."Terminada:");
+$printer->setReverseColors(false);
 
 printFoot($printer);
