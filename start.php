@@ -10,6 +10,7 @@
  * @author Michael Billington <michael.billington@gmail.com>
  */
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . './utils.php';
 
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
@@ -19,10 +20,6 @@ use function PHPSTORM_META\map;
 
 $connector = new FilePrintConnector("php://stdout");
 $printer = new Printer($connector);
-
-$inputJson = $argv[1];
-
-$decodedJson = json_decode($inputJson);
 
 printHeader($printer, $decodedJson);
 $formats = [];
@@ -34,18 +31,3 @@ $printer->cut();
 
 $printer->close();
 
-function printHeader($printer, $decodedJson)
-{
-
-    $printer->setReverseColors(true);
-    $timestamp = $decodedJson->message->date;
-    $timezone = "Europe/Madrid";
-    $dt = new DateTime();
-    $dt->setTimestamp($timestamp);
-    $dt->setTimezone(new DateTimeZone($timezone));
-    $datetime = $dt->format('Y-m-d H:i:s');
-
-    $printer->text($decodedJson->message->chat->first_name . ' - ' . $datetime);
-    $printer->feed(2);
-    $printer->setReverseColors(false);
-}
