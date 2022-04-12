@@ -1,8 +1,5 @@
 <?php
 
-$inputJson = $argv[1];
-$decodedJson = json_decode($inputJson);
-
 function printHeader($printer, $decodedJson)
 {
 

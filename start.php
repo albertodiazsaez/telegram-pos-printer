@@ -21,6 +21,9 @@ use function PHPSTORM_META\map;
 $connector = new FilePrintConnector("php://stdout");
 $printer = new Printer($connector);
 
+$inputJson = $argv[1];
+$decodedJson = json_decode($inputJson);
+
 printHeader($printer, $decodedJson);
 $formats = [];
 
