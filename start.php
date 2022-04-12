@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is a demo script for the functions of the PHP ESC/POS print driver,
  * Escpos.php.
@@ -9,6 +10,7 @@
  * @author Michael Billington <michael.billington@gmail.com>
  */
 require __DIR__ . '/vendor/autoload.php';
+
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\EscposImage;
@@ -20,23 +22,27 @@ $inputJson = $argv[1];
 
 $decodedJson = json_decode($inputJson);
 
-$printer -> setReverseColors(true);
+printHeader($printer, $decodedJson);
 
-$timestamp = $decodedJson -> message -> date;
-$timezone = "Europe/Madrid";
-$dt = new DateTime();
-$dt->setTimestamp($timestamp);
-$dt->setTimezone(new DateTimeZone($timezone));
-$datetime = $dt->format('Y-m-d H:i:s');
+$printer->text(wordwrap($decodedJson->message->text, 42, "\n", true));
 
-$printer -> text($decodedJson -> message -> chat -> first_name . ' - ' . $datetime);
-$printer -> feed(2);
+$printer->feed(2);
+$printer->cut();
 
-$printer -> setReverseColors(false);
+$printer->close();
 
-$printer -> text(wordwrap($decodedJson -> message -> text, 42, "\n", true));
+function printHeader($printer, $decodedJson)
+{
 
-$printer -> feed(2);
-$printer -> cut();
+    $printer->setReverseColors(true);
+    $timestamp = $decodedJson->message->date;
+    $timezone = "Europe/Madrid";
+    $dt = new DateTime();
+    $dt->setTimestamp($timestamp);
+    $dt->setTimezone(new DateTimeZone($timezone));
+    $datetime = $dt->format('Y-m-d H:i:s');
 
-$printer -> close();
+    $printer->text($decodedJson->message->chat->first_name . ' - ' . $datetime);
+    $printer->feed(2);
+    $printer->setReverseColors(false);
+}
