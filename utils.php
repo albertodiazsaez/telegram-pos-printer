@@ -15,3 +15,11 @@ function printHeader($printer, $decodedJson)
     $printer->feed(2);
     $printer->setReverseColors(false);
 }
+
+function printFoot($printer)
+{
+    $printer->feed(2);
+    $printer->cut();
+
+    $printer->close();
+}

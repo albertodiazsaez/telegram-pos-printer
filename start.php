@@ -25,12 +25,7 @@ $inputJson = $argv[1];
 $decodedJson = json_decode($inputJson);
 
 printHeader($printer, $decodedJson);
-$formats = [];
 
 $printer->text(wordwrap($decodedJson->message->text, 42, "\n", true));
 
-$printer->feed(2);
-$printer->cut();
-
-$printer->close();
-
+printFoot($printer);
