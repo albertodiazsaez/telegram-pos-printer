@@ -15,6 +15,8 @@ use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\EscposImage;
 
+use function PHPSTORM_META\map;
+
 $connector = new FilePrintConnector("php://stdout");
 $printer = new Printer($connector);
 
@@ -23,6 +25,11 @@ $inputJson = $argv[1];
 $decodedJson = json_decode($inputJson);
 
 printHeader($printer, $decodedJson);
+
+
+$formatsMap = map($decodedJson -> message -> entities);
+
+echo $formatsMap;
 
 $printer->text(wordwrap($decodedJson->message->text, 42, "\n", true));
 
